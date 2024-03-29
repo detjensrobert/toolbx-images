@@ -1,0 +1,37 @@
+name: Build images
+
+on:
+  schedule:
+    # 4AM every monday, matches upstream weekly builds on sunday
+    - cron: '0 4 * * MON'
+  push:
+    branches: [ "main" ]
+
+env:
+  IMAGE: ${{ github.repository_owner }}/arch-toolbox
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Image
+        id: build_image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ${{ env.IMAGE }}
+          tags: latest
+          containerfiles: ./Containerfile
+
+      - name: Push To GHCR
+        uses: redhat-actions/push-to-registry@v2
+        id: push-ghcr
+        with:
+          registry: ghcr.io
+          image: ${{ steps.build_image.outputs.image }}
+          tags:  ${{ steps.build_image.outputs.tags }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
