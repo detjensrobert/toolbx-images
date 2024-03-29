@@ -8,11 +8,15 @@ on:
     branches: [ "main" ]
 
 env:
-  IMAGE: ${{ github.repository_owner }}/arch-toolbox
+  IMAGE: ${{ github.repository_owner }}/toolbx-images
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tag:
+          - arch
 
     steps:
       - name: Checkout repository
@@ -23,8 +27,8 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: ${{ env.IMAGE }}
-          tags: latest
-          containerfiles: ./Containerfile
+          tags: ${{ matrix.tag }}
+          containerfiles: ./Containerfile.${{ matrix.tag }}
 
       - name: Push To GHCR
         uses: redhat-actions/push-to-registry@v2
