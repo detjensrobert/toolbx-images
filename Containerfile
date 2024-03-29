@@ -21,7 +21,8 @@ RUN pacman -Syu --needed --noconfirm - < /extra-packages && \
 # yay tries to read /dev/tty as stdin, there is no tty here! ugh
 RUN useradd yaybuilder --groups wheel --create-home && \
     sudo -u yaybuilder yay -Sy --noconfirm `cat /aur-packages` && \
-    userdel yaybuilder --remove && \
+    userdel yaybuilder && \
+    rm -rf /home/yaybuilder && \
     pacman -Scc --noconfirm --clean
 
 RUN rm /extra-packages /aur-packages
