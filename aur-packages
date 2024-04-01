@@ -1,4 +1,5 @@
 google-cloud-cli-gke-gcloud-auth-plugin
+aws-session-manager-plugin
 podman-remote
 rsgain
 latexrun-git
