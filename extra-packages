@@ -38,7 +38,7 @@ ffmpeg
 reflector
 
 google-cloud-cli
-aws-cli
+aws-cli-v2
 doctl
 github-cli
 glab
