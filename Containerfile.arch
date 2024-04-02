@@ -23,7 +23,7 @@ RUN pacman -Sy --needed --noconfirm reflector && \
 
 # reinstall packages with manpages, and install other extra packages
 COPY ./extra-packages ./aur-packages /
-RUN pacman -Qq $(pacman -Fq /usr/share/man/ | cut -d/ -f2) 2> /dev/null | pacman -S --needed --noconfirm - && \
+RUN pacman -Qq $(pacman -Fq /usr/share/man/ | cut -d/ -f2) 2> /dev/null | pacman -S --noconfirm - && \
     pacman -Syu --needed --noconfirm - < /extra-packages && \
     pacman -Scc --noconfirm --clean
 
