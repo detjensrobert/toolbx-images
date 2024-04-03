@@ -40,6 +40,8 @@ ffmpeg
 reflector
 openbsd-netcat
 bind
+pass
+wl-clipboard
 
 google-cloud-cli
 aws-cli-v2
