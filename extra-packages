@@ -14,6 +14,8 @@ entr
 man-pages
 man-db
 
+htop
+btop
 pwgen
 sshfs
 mtr
