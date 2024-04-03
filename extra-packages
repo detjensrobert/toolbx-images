@@ -39,6 +39,7 @@ yt-dlp
 ffmpeg
 reflector
 openbsd-netcat
+bind
 
 google-cloud-cli
 aws-cli-v2
