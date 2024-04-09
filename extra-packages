@@ -46,7 +46,7 @@ ruby
 ruby-irb
 ruby-pry
 rubygems
-bundler
+ruby-bundler
 
 google-cloud-cli
 aws-cli-v2
