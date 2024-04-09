@@ -45,6 +45,8 @@ wl-clipboard
 ruby
 ruby-irb
 ruby-pry
+rubygems
+bundler
 
 google-cloud-cli
 aws-cli-v2
