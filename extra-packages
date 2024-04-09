@@ -42,6 +42,9 @@ openbsd-netcat
 bind
 pass
 wl-clipboard
+ruby
+ruby-irb
+ruby-pry
 
 google-cloud-cli
 aws-cli-v2
