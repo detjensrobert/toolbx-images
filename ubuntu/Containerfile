@@ -1,0 +1,17 @@
+# FROM quay.io/toolbx/ubuntu-toolbox:22.04
+FROM quay.io/toolbx/ubuntu-toolbox:23.10
+
+COPY ./extra-packages /
+RUN apt-get update && \
+    apt-get install -y $(cat /extra-packages | xargs) && \
+    rm -rd /var/lib/apt/lists/*
+
+RUN rm /extra-packages
+
+# pre set distrobox host links
+RUN ln -s /usr/bin/distrobox-host-exec /usr/local/bin/firefox && \
+    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/systemctl && \
+    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/xdg-open && \
+    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/journalctl && \
+    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/podman && \
+    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/flatpak

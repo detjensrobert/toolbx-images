@@ -17,6 +17,7 @@ jobs:
       matrix:
         tag:
           - arch
+          - ubuntu
 
     steps:
       - name: Checkout repository
@@ -28,7 +29,8 @@ jobs:
         with:
           image: ${{ env.IMAGE }}
           tags: ${{ matrix.tag }}
-          containerfiles: ./Containerfile.${{ matrix.tag }}
+          context: ${{ matrix.tag }}
+          containerfiles: ./Containerfile
 
       - name: Push To GHCR
         uses: redhat-actions/push-to-registry@v2
