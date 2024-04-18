@@ -30,7 +30,7 @@ jobs:
           image: ${{ env.IMAGE }}
           tags: ${{ matrix.tag }}
           context: ${{ matrix.tag }}
-          containerfiles: ./Containerfile
+          containerfiles: ./${{ matrix.tag }}/Containerfile
 
       - name: Push To GHCR
         uses: redhat-actions/push-to-registry@v2
