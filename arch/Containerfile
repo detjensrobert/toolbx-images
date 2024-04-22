@@ -18,12 +18,18 @@ RUN sed -i -E /etc/pacman.conf \
         -e 's/^#MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/'
 
 # set pacman mirrors
-RUN pacman -Sy --needed --noconfirm reflector && \
-    reflector --country us --save /etc/pacman.d/mirrorlist --protocol https --latest 25 --fastest 5
+ADD /etc/pacman.d/mirrorlist <<EOF
+Server = https://ziply.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://mirrors.xtom.com/archlinux/$repo/os/$arch
+Server = https://mirror.fcix.net/archlinux/$repo/os/$arch
+Server = https://mirrors.ocf.berkeley.edu/archlinux/$repo/os/$arch
+Server = https://ftp-osl.osuosl.org/pub/archlinux/$repo/os/$arch
+EOF
 
 # reinstall packages with manpages, and install other extra packages
 COPY ./extra-packages ./aur-packages /
-RUN pacman -Qq $(pacman -Fq /usr/share/man/ | cut -d/ -f2) 2> /dev/null | pacman -S --noconfirm - && \
+RUN pacman -Fy --noconfirm && pacman -Sy --noconfirm && \
+    pacman -Qq $(pacman -Fq /usr/share/man/ | cut -d/ -f2) 2> /dev/null | pacman -S --noconfirm - && \
     pacman -Syu --needed --noconfirm - < /extra-packages && \
     pacman -Scc --noconfirm --clean
 

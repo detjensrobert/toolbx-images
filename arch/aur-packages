@@ -5,3 +5,5 @@ podman-remote
 rsgain
 latexrun-git
 krew-bin
+
+aws-cli-v2
