@@ -18,7 +18,7 @@ RUN sed -i -E /etc/pacman.conf \
         -e 's/^#MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/'
 
 # set pacman mirrors
-ADD /etc/pacman.d/mirrorlist <<EOF
+ADD <<EOF /etc/pacman.d/mirrorlist
 Server = https://ziply.mm.fcix.net/archlinux/$repo/os/$arch
 Server = https://mirrors.xtom.com/archlinux/$repo/os/$arch
 Server = https://mirror.fcix.net/archlinux/$repo/os/$arch
