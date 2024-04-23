@@ -11,6 +11,10 @@ RUN rm /extra-packages
 # fix bat program name
 RUN ln -s /usr/bin/batcat /usr/bin/bat
 
+# install newer zoxide manually (repo package is ancient)
+RUN curl -sSL -o /tmp/zoxide.deb https://github.com/ajeetdsouza/zoxide/releases/download/v0.9.4/zoxide_0.9.4-1_amd64.deb && \
+    apt-get install /tmp/zoxide.deb -y 
+
 # pre set distrobox host links
 RUN ln -s /usr/bin/distrobox-host-exec /usr/local/bin/firefox && \
     ln -s /usr/bin/distrobox-host-exec /usr/local/bin/systemctl && \

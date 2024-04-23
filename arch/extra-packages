@@ -48,6 +48,7 @@ ruby-irb
 ruby-pry
 rubygems
 ruby-bundler
+perl-rename
 
 google-cloud-cli
 doctl
