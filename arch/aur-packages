@@ -6,3 +6,7 @@ latexrun-git
 krew-bin
 
 aws-cli-v2
+
+lazygit
+lazydocker
+lazysql
