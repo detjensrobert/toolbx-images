@@ -4,8 +4,7 @@ python-aws-mfa
 rsgain
 latexrun-git
 krew-bin
-
-aws-cli-v2
+auth0-bin
 
 lazygit
 lazydocker

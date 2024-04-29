@@ -1,4 +1,3 @@
-# FROM quay.io/toolbx/ubuntu-toolbox:22.04
 FROM quay.io/toolbx/ubuntu-toolbox:23.10
 
 COPY ./extra-packages /
