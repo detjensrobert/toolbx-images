@@ -27,22 +27,24 @@ RUN sed -i -E /etc/pacman.conf \
 #EOF
 RUN echo -e 'Server = https://ziply.mm.fcix.net/archlinux/$repo/os/$arch\nServer = https://mirror.fcix.net/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 
-# reinstall packages with manpages, and install other extra packages
-COPY ./extra-packages ./aur-packages /
+# reinstall packages with manpages
 RUN pacman -Fy --noconfirm && pacman -Sy --noconfirm && \
     pacman -Qq $(pacman -Fq /usr/share/man/ | cut -d/ -f2) 2> /dev/null | pacman -S --noconfirm - && \
-    pacman -Syu --needed --noconfirm - < /extra-packages && \
     pacman -Scc --noconfirm --clean
+
+# and install other extra packages
+COPY ./packages /
+RUN pacman -Syu --needed --noconfirm - < /packages && \
+    pacman -Scc --noconfirm --clean && rm /packages
 
 # run yay as temp user
 # yay tries to read /dev/tty as stdin, there is no tty here! ugh
+COPY ./aur-packages /
 RUN useradd yaybuilder --groups wheel --create-home && \
     sudo -u yaybuilder yay -Sy --noconfirm `cat /aur-packages` && \
     userdel yaybuilder && \
     rm -rf /home/yaybuilder && \
-    pacman -Scc --noconfirm --clean
-
-RUN rm /extra-packages /aur-packages
+    pacman -Scc --noconfirm --clean && rm /aur-packages
 
 # pre set distrobox host links
 RUN ln -s /usr/bin/distrobox-host-exec /usr/local/bin/firefox && \
