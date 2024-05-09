@@ -33,13 +33,13 @@ jobs:
           containerfiles: ./${{ matrix.tag }}/Containerfile
           # cache stuff:
           layers: true
-          build-args:
+          extra-args: |
             --cache-from="ghcr.io/${{ github.repository_owner }}/cache"
             --cache-to="ghcr.io/${{ github.repository_owner }}/cache"
 
 
       - name: Push To GHCR
-        uses: redhat-actions/push-to-registry@v2
+        uses: redhat-actions/push-to-registry@main
         id: push-ghcr
         with:
           registry: ghcr.io
