@@ -37,8 +37,10 @@ COPY ./packages /
 RUN pacman -Syu --needed --noconfirm - < /packages && \
     pacman -Scc --noconfirm --clean && rm /packages
 
-# fix podman-docker to use PATH
-RUN sed -i -E 's|exec .+podman|exec podman|' $(command -v docker)
+# install packages from url (before aur for deps)
+COPY /url-packages /
+RUN pacman -U - < /url-packages && \
+    pacman -Scc --noconfirm --clean && rm /url-packages
 
 # run yay as temp user
 # yay tries to read /dev/tty as stdin, there is no tty here! ugh
@@ -48,6 +50,9 @@ RUN useradd yaybuilder --groups wheel --create-home && \
     userdel yaybuilder && \
     rm -rf /home/yaybuilder && \
     pacman -Scc --noconfirm --clean && rm /aur-packages
+
+# fix podman-docker to use PATH
+RUN sed -i -E 's|exec .+podman|exec podman|' $(command -v docker)
 
 # pre set distrobox host links
 RUN ln -s /usr/bin/distrobox-host-exec /usr/local/bin/firefox && \
