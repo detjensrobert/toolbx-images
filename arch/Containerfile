@@ -37,6 +37,9 @@ COPY ./packages /
 RUN pacman -Syu --needed --noconfirm - < /packages && \
     pacman -Scc --noconfirm --clean && rm /packages
 
+# fix podman-docker to use PATH
+RUN sed -i -E 's|exec .+podman|exec podman|' $(command -v docker)
+
 # run yay as temp user
 # yay tries to read /dev/tty as stdin, there is no tty here! ugh
 COPY ./aur-packages /
