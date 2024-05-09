@@ -49,6 +49,9 @@ ruby-pry
 rubygems
 ruby-bundler
 perl-rename
+python
+python-pipenv
+python-pipx
 
 google-cloud-cli
 doctl
