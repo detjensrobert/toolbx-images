@@ -27,7 +27,6 @@ hexyl
 htop
 httpie
 imagemagick
-ipython
 jq
 moreutils
 mtr
@@ -38,22 +37,18 @@ perl-rename
 podman
 podman-docker
 pwgen
-python
-python-pipenv
-python-pipx
 reflector
 rsync
-ruby
-ruby-bundler
-ruby-irb
-ruby-pry
-rubygems
 sshfs
 terraform
 tig
 wl-clipboard
 yq
 yt-dlp
+
+rust cargo
+ruby ruby-bundler ruby-irb ruby-pry rubygems
+python ipython python-pipenv python-pipx
 
 google-cloud-cli
 doctl
