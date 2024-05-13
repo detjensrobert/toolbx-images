@@ -1,0 +1,19 @@
+FROM ghcr.io/detjensrobert/toolbx-images:arch
+
+# install editor packages, etc over base image
+
+COPY ./packages /
+RUN pacman -Syu --needed --noconfirm $(cat /packages | xargs)  && \
+    pacman -Scc --noconfirm --clean && rm /packages
+
+# # install packages from url (before aur for deps)
+# COPY /url-packages /
+# RUN pacman -U - < /url-packages && \
+#     pacman -Scc --noconfirm --clean && rm /url-packages
+
+COPY ./aur-packages /
+RUN useradd yaybuilder --groups wheel --create-home && \
+    sudo -u yaybuilder yay -Sy --noconfirm $(cat /aur-packages | xargs) && \
+    userdel yaybuilder && \
+    rm -rf /home/yaybuilder && \
+    pacman -Scc --noconfirm --clean && rm /aur-packages

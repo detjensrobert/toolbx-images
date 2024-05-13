@@ -11,11 +11,11 @@ RUN pacman-key --init && \
 
 # twiddle some pacman settings
 RUN sed -i -E /etc/pacman.conf \
-        -e 's/^#Color/Color/' \
-        -e 's/^NoProgressBar/#NoProgressBar/' \
-        -e '\|^NoExtract.+usr/share/man|d' && \
+    -e 's/^#Color/Color/' \
+    -e 's/^NoProgressBar/#NoProgressBar/' \
+    -e '\|^NoExtract.+usr/share/man|d' && \
     sed -i -E /etc/makepkg.conf \
-        -e 's/^#MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/'
+    -e 's/^#MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/'
 
 # set pacman mirrors
 #COPY <<EOF /etc/pacman.d/mirrorlist
@@ -34,19 +34,19 @@ RUN pacman -Fy --noconfirm && pacman -Sy --noconfirm && \
 
 # and install other extra packages
 COPY ./packages /
-RUN pacman -Syu --needed --noconfirm - < /packages && \
+RUN pacman -Syu --needed --noconfirm $(cat /packages | xargs) && \
     pacman -Scc --noconfirm --clean && rm /packages
 
 # install packages from url (before aur for deps)
 COPY /url-packages /
-RUN pacman -U - < /url-packages && \
+RUN pacman -U $(cat /url-packages | xargs) && \
     pacman -Scc --noconfirm --clean && rm /url-packages
 
 # run yay as temp user
 # yay tries to read /dev/tty as stdin, there is no tty here! ugh
 COPY ./aur-packages /
 RUN useradd yaybuilder --groups wheel --create-home && \
-    sudo -u yaybuilder yay -Sy --noconfirm `cat /aur-packages` && \
+    sudo -u yaybuilder yay -Sy --noconfirm $(cat /aur-packages | xargs) && \
     userdel yaybuilder && \
     rm -rf /home/yaybuilder && \
     pacman -Scc --noconfirm --clean && rm /aur-packages
