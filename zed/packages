@@ -2,3 +2,4 @@ zed-editor
 
 rust rust-analyzer
 clang
+go gopls
