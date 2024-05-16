@@ -1,4 +1,5 @@
 google-cloud-cli-gke-gcloud-auth-plugin
+aws-cli-v2
 aws-session-manager-plugin
 python-aws-mfa
 rsgain

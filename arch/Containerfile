@@ -37,16 +37,12 @@ COPY ./packages /
 RUN pacman -Syu --needed --noconfirm $(cat /packages | xargs) && \
     pacman -Scc --noconfirm --clean && rm /packages
 
-# install packages from url (before aur for deps)
-COPY /url-packages /
-RUN pacman -U $(cat /url-packages | xargs) && \
-    pacman -Scc --noconfirm --clean && rm /url-packages
-
 # run yay as temp user
 # yay tries to read /dev/tty as stdin, there is no tty here! ugh
 COPY ./aur-packages /
 RUN useradd yaybuilder --groups wheel --create-home && \
-    sudo -u yaybuilder yay -Sy --noconfirm $(cat /aur-packages | xargs) && \
+    sudo -u yaybuilder \
+      yay -Sy --noconfirm --cleanafter --mflags="--nocheck" $(cat /aur-packages | xargs) && \
     userdel yaybuilder && \
     rm -rf /home/yaybuilder && \
     pacman -Scc --noconfirm --clean && rm /aur-packages
