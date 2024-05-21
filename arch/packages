@@ -38,6 +38,7 @@ podman
 podman-docker
 pwgen
 reflector
+retry
 rsync
 sshfs
 terraform
