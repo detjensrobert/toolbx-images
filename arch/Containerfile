@@ -11,11 +11,12 @@ RUN pacman-key --init && \
 
 # twiddle some pacman settings
 RUN sed -i -E /etc/pacman.conf \
-    -e 's/^#Color/Color/' \
-    -e 's/^NoProgressBar/#NoProgressBar/' \
-    -e '\|^NoExtract.+usr/share/man|d' && \
+      -e 's/^#Color/Color/' \
+      -e 's/^NoProgressBar/#NoProgressBar/' \
+      -e '\|^NoExtract.+usr/share/man|d' && \
     sed -i -E /etc/makepkg.conf \
-    -e 's/^#MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/'
+      -e 's/^#MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/' \
+      -e '/OPTIONS/s/ debug/ !debug/'
 
 # set pacman mirrors
 #COPY <<EOF /etc/pacman.d/mirrorlist
