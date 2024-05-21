@@ -36,11 +36,6 @@ jobs:
           tags: ${{ matrix.tag }}
           context: ${{ matrix.tag }}
           containerfiles: ./${{ matrix.tag }}/Containerfile
-          # cache stuff:
-          layers: true
-          extra-args: |
-            --cache-from=ghcr.io/${{ env.IMAGE }}
-            --cache-to=ghcr.io/${{ env.IMAGE }}
 
       - name: Push To GHCR
         uses: redhat-actions/push-to-registry@main
