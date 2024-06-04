@@ -1,16 +1,12 @@
-FROM quay.io/toolbx/ubuntu-toolbox:23.10
+FROM quay.io/toolbx/ubuntu-toolbox:24.04
 
-COPY ./extra-packages /
+COPY ./packages /
 RUN apt-get update && \
-    apt-get install -y $(cat /extra-packages | xargs) && \
-    rm -rd /var/lib/apt/lists/* && rm /extra-packages
+    apt-get install -y $(cat /packages | xargs) && \
+    rm -rd /var/lib/apt/lists/* && rm /packages
 
 # fix bat program name
 RUN ln -s /usr/bin/batcat /usr/bin/bat
-
-# install newer zoxide manually (repo package is ancient)
-RUN curl -sSL -o /tmp/zoxide.deb https://github.com/ajeetdsouza/zoxide/releases/download/v0.9.4/zoxide_0.9.4-1_amd64.deb && \
-    apt-get install /tmp/zoxide.deb -y
 
 # pre set distrobox host links
 RUN ln -s /usr/bin/distrobox-host-exec /usr/local/bin/firefox && \
