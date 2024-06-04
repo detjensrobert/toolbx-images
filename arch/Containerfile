@@ -49,7 +49,7 @@ RUN useradd yaybuilder --groups wheel --create-home && \
     pacman -Scc --noconfirm --clean && rm /aur-packages
 
 # fix podman-docker to use PATH
-RUN sed -i -E 's|exec .+podman|exec podman|' $(command -v docker)
+RUN sed -i -E 's|exec .+podman|exec podman|' $(find /usr -name docker)
 
 # pre set distrobox host links
 RUN for f in systemctl journalctl xdg-open firefox podman flatpak op ; do \
