@@ -30,6 +30,7 @@ imagemagick
 jq
 moreutils
 mtr
+miller
 openbsd-netcat
 parallel
 pass
