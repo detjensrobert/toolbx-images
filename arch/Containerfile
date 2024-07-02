@@ -55,3 +55,8 @@ RUN sed -i -E 's|exec .+podman|exec podman|' $(find /usr -name docker)
 RUN for f in systemctl journalctl xdg-open firefox podman flatpak op ; do \
       ln -s /usr/bin/distrobox-host-exec /usr/local/bin/$f; \
     done
+
+LABEL io.containers.autoupdate=registry \
+      name="Custom Archlinux Toolbox" \
+      maintainer=detjensrobert \
+      org.opencontainers.image.source="https://github.com/detjensrobert/toolbx-images"
