@@ -1,6 +1,7 @@
 name: Build images
 
 on:
+  workflow_dispatch: # manual trigger
   schedule:
     # 4AM every monday, matches upstream weekly builds on sunday
     - cron: "0 4 * * MON"
