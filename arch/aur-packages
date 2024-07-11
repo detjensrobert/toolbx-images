@@ -1,8 +1,9 @@
 google-cloud-cli-gke-gcloud-auth-plugin
 aws-cli-v2
-aws-session-manager-plugin
+#aws-session-manager-plugin
 python-aws-mfa
-oci-cli
+# upstream dependency messed up
+#oci-cli 
 auth0-bin
 
 rsgain
