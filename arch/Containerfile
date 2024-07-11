@@ -19,14 +19,7 @@ RUN sed -i -E /etc/pacman.conf \
     -e '/OPTIONS/s/ debug/ !debug/'
 
 # set pacman mirrors
-COPY <<-EOF /etc/pacman.d/mirrorlist
-    Server = https://ziply.mm.fcix.net/archlinux/$repo/os/$arch
-    Server = https://mirrors.xtom.com/archlinux/$repo/os/$arch
-    Server = https://mirror.fcix.net/archlinux/$repo/os/$arch
-    Server = https://mirrors.ocf.berkeley.edu/archlinux/$repo/os/$arch
-    Server = https://ftp-osl.osuosl.org/pub/archlinux/$repo/os/$arch
-EOF
-# RUN echo -e 'Server = https://ziply.mm.fcix.net/archlinux/$repo/os/$arch\nServer = https://mirror.fcix.net/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+RUN echo -e 'Server = https://ziply.mm.fcix.net/archlinux/$repo/os/$arch\nServer = https://mirror.fcix.net/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 
 # reinstall packages with manpages
 RUN pacman -Fy --noconfirm && pacman -Sy --noconfirm && \
@@ -57,6 +50,6 @@ RUN for f in systemctl journalctl xdg-open firefox podman flatpak op ; do \
     done
 
 LABEL io.containers.autoupdate=registry \
-      name="Custom Archlinux Toolbox" \
-      maintainer=detjensrobert \
-      org.opencontainers.image.source="https://github.com/detjensrobert/toolbx-images"
+    name="Custom Archlinux Toolbox" \
+    maintainer=detjensrobert \
+    org.opencontainers.image.source="https://github.com/detjensrobert/toolbx-images"
