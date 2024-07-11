@@ -12,12 +12,12 @@ RUN pacman-key --init && \
 
 # twiddle some pacman settings
 RUN sed -i -E /etc/pacman.conf \
-    -e 's/^#Color/Color/' \
-    -e 's/^NoProgressBar/#NoProgressBar/' \
-    -e '\|^NoExtract.+usr/share/man|d' && \
+      -e 's/^#Color/Color/' \
+      -e 's/^NoProgressBar/#NoProgressBar/' \
+      -e '\|^NoExtract.+usr/share/man|d' && \
     sed -i -E /etc/makepkg.conf \
-    -e 's/^#MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/' \
-    -e '/OPTIONS/s/ debug/ !debug/'
+      -e 's/^#MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/' \
+      -e '/OPTIONS/s/ debug/ !debug/'
 
 # set pacman mirrors
 RUN echo -e 'Server = https://ziply.mm.fcix.net/archlinux/$repo/os/$arch\nServer = https://mirror.fcix.net/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
@@ -36,8 +36,7 @@ RUN pacman -Syu --needed --noconfirm $(cat /packages | grep -v '#' | xargs) && \
 # yay tries to read /dev/tty as stdin, there is no tty here! ugh
 COPY ./aur-packages /
 RUN useradd yaybuilder --groups wheel --create-home && \
-    sudo -u yaybuilder \
-    \ yay -Sy --noconfirm --cleanafter --mflags="--nocheck" $(cat /aur-packages | grep -v '#' | xargs) && \
+    sudo -u yaybuilder yay -Sy --noconfirm --cleanafter --mflags="--nocheck" $(cat /aur-packages | grep -v '#' | xargs) && \
     userdel yaybuilder && \
     rm -rf /home/yaybuilder && \
     pacman -Scc --noconfirm --clean && rm /aur-packages
@@ -47,7 +46,7 @@ RUN sed -i -E 's|exec .+podman|exec podman|' $(find /usr -name docker)
 
 # pre set distrobox host links
 RUN for f in systemctl journalctl xdg-open firefox podman flatpak op ; do \
-    \ ln -s /usr/bin/distrobox-host-exec /usr/local/bin/$f; \
+      ln -s /usr/bin/distrobox-host-exec /usr/local/bin/$f; \
     done
 
 LABEL io.containers.autoupdate=registry \
