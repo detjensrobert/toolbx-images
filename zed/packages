@@ -1,5 +1,6 @@
 zed
 
+# language servers etc
 rust rust-analyzer
 clang
 go gopls
