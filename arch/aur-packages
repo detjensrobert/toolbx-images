@@ -12,5 +12,6 @@ krew-bin
 mise
 
 lazygit
-lazydocker
 lazysql
+#lazydocker
+ducker

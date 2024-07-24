@@ -54,6 +54,7 @@ yt-dlp
 rust cargo
 ruby ruby-bundler ruby-irb ruby-pry rubygems
 python ipython python-pipenv python-pipx
+mold
 
 # cloud clis
 google-cloud-cli
