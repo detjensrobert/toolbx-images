@@ -39,6 +39,7 @@ pass
 perl-rename
 podman
 podman-docker
+pv
 pwgen
 reflector
 retry
