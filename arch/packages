@@ -52,7 +52,7 @@ yq
 yt-dlp
 
 # language stuff
-rust cargo
+rust cargo clang
 ruby ruby-bundler ruby-irb ruby-pry rubygems
 python ipython python-pipenv python-pipx
 mold
