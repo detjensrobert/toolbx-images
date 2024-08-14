@@ -46,6 +46,7 @@ retry
 rsync
 sshfs
 terraform
+opentofu
 tig
 wl-clipboard
 yq
