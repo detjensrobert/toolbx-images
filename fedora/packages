@@ -21,6 +21,7 @@ yq
 moreutils
 rsync
 pipx
+gh
 tig
 parallel
 hexyl

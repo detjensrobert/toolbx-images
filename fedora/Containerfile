@@ -7,9 +7,13 @@ RUN dnf install -y \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
 RUN dnf config-manager --enable fedora-cisco-openh264 -y
 
+# install mesa with codecs
+RUN dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld && \
+    dnf swap -y mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+
 COPY ./packages /
 RUN dnf install -y $(cat /packages | grep -v '#' | xargs) && \
-    dnf clean all && rm -f /packages
+    rm -f /packages
 
 # pre set distrobox host links
 RUN ln -s /usr/bin/distrobox-host-exec /usr/local/bin/firefox && \

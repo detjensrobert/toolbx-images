@@ -1,0 +1,16 @@
+FROM ghcr.io/detjensrobert/toolbx-images:fedora
+
+RUN dnf install -y steam
+# fetch latest ALVR release tarball from ALVR repo
+# already structured like a package so unpack over root
+# (normally dangerous but this is a container! who cares!)
+RUN curl -sSL https://github.com/alvr-org/ALVR/releases/download/v20.11.0/alvr_streamer_linux.tar.gz | \
+    tar xzvf - \
+    --no-same-owner --no-same-permissions \
+    --keep-directory-symlink \
+    --strip-components 1 \
+    --directory /
+
+# use upstream alvr desktop file
+RUN curl -sSL https://github.com/alvr-org/ALVR/raw/master/alvr/xtask/resources/alvr.desktop \
+    --output /usr/share/applications/alvr.desktop
