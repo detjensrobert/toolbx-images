@@ -16,14 +16,43 @@ env:
   IMAGE: ${{ github.repository_owner }}/toolbx-images
 
 jobs:
-  build:
+  base-images:
     runs-on: ubuntu-24.04
     strategy:
-      max-parallel: 1 # dont run these concurrently so zed picks up the new arch image
       matrix:
         tag:
           - arch
           - ubuntu
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Image
+        id: build_image
+        uses: redhat-actions/buildah-build@main
+        with:
+          image: ${{ env.IMAGE }}
+          tags: ${{ matrix.tag }}
+          context: ${{ matrix.tag }}
+          containerfiles: ./${{ matrix.tag }}/Containerfile
+
+      - name: Push To GHCR
+        uses: redhat-actions/push-to-registry@main
+        id: push-ghcr
+        with:
+          registry: ghcr.io
+          image: ${{ steps.build_image.outputs.image }}
+          tags: ${{ steps.build_image.outputs.tags }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+  deriv-images:
+    runs-on: ubuntu-24.04
+    needs: base-images
+    strategy:
+      matrix:
+        tag:
           - zed
 
     steps:
