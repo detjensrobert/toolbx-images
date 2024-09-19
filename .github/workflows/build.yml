@@ -22,6 +22,7 @@ jobs:
       matrix:
         tag:
           - arch
+          - fedora
           - ubuntu
 
     steps:

@@ -1,0 +1,20 @@
+FROM quay.io/fedora/fedora-toolbox:latest
+# FROM quay.io/fedora/fedora-toolbox:40
+
+# setup rpmfusion repos
+RUN dnf install -y \
+    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
+RUN dnf config-manager --enable fedora-cisco-openh264 -y
+
+COPY ./packages /
+RUN dnf install -y $(cat /packages | grep -v '#' | xargs) && \
+    dnf clean all && rm -f /packages
+
+# pre set distrobox host links
+RUN ln -s /usr/bin/distrobox-host-exec /usr/local/bin/firefox && \
+    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/systemctl && \
+    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/xdg-open && \
+    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/journalctl && \
+    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/podman && \
+    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/flatpak
