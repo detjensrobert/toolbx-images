@@ -1,9 +1,14 @@
 FROM quay.io/toolbx/ubuntu-toolbox:24.04
 
+RUN echo "en_US.UTF-8" > /etc/locale.gen
+
+RUN apt-get update
+
+RUN apt-get install -y apt-file && \
+    apt-file update
+
 COPY ./packages /
-RUN apt-get update && \
-    apt-get install -y $(cat /packages | grep -v '#' | xargs) && \
-    rm -rd /var/lib/apt/lists/* && rm /packages
+RUN apt-get install -y $(cat /packages | grep -v '#' | xargs) && rm /packages
 
 # fix bat program name
 RUN ln -s /usr/bin/batcat /usr/bin/bat

@@ -55,6 +55,7 @@ jobs:
       matrix:
         tag:
           - zed
+          - vr
 
     steps:
       - name: Checkout repository

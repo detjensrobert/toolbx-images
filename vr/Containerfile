@@ -1,16 +1,38 @@
-FROM ghcr.io/detjensrobert/toolbx-images:fedora
+FROM ghcr.io/detjensrobert/toolbx-images:ubuntu
 
-RUN dnf install -y steam
+
+RUN sudo dpkg --add-architecture i386 && \
+    apt-get update -y && \
+    apt-get install -y steam-installer steam-devices pipewire pipewire-pulse libnss3
+
+# steam is not in PATH by default
+RUN ln -s /usr/games/steam /usr/bin/steam
+
+# steam also expectes pkexec, sudo is passwordless here so use that instead
+RUN ln -s /usr/bin/sudo /usr/bin/pkexec
+
 # fetch latest ALVR release tarball from ALVR repo
 # already structured like a package so unpack over root
 # (normally dangerous but this is a container! who cares!)
-RUN curl -sSL https://github.com/alvr-org/ALVR/releases/download/v20.11.0/alvr_streamer_linux.tar.gz | \
-    tar xzvf - \
-    --no-same-owner --no-same-permissions \
-    --keep-directory-symlink \
+# RUN curl -sSL https://github.com/alvr-org/ALVR/releases/download/v20.11.0/alvr_streamer_linux.tar.gz | \
+#     tar xzvf - \
+#     --no-same-owner --no-same-permissions \
+#     --keep-directory-symlink \
+#     --strip-components 1 \
+#     --directory /
+
+# fetch latest ALVR launcher release tarball
+RUN curl -sSL https://github.com/alvr-org/ALVR/releases/download/v20.11.0/alvr_launcher_linux.tar.gz \
+    | tar xzvf - \
     --strip-components 1 \
-    --directory /
+    --transform 's/ALVR Launcher/alvr_launcher/' \
+    --show-transformed-names \
+    --directory /usr/local/bin/
 
 # use upstream alvr desktop file
 RUN curl -sSL https://github.com/alvr-org/ALVR/raw/master/alvr/xtask/resources/alvr.desktop \
-    --output /usr/share/applications/alvr.desktop
+    | sed -E 's/Exec=.+/Exec=alvr_launcher/' \
+    > /usr/share/applications/alvr.desktop
+
+# remove host xdg-open link so steam:// urls open inside the container
+RUN rm /usr/local/bin/xdg-open
