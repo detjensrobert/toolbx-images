@@ -1,6 +1,5 @@
 FROM ghcr.io/detjensrobert/toolbx-images:ubuntu
 
-
 RUN sudo dpkg --add-architecture i386 && \
     apt-get update -y && \
     apt-get install -y steam-installer steam-devices pipewire pipewire-pulse libnss3
@@ -31,7 +30,7 @@ RUN curl -sSL https://github.com/alvr-org/ALVR/releases/download/v20.11.0/alvr_l
 
 # use upstream alvr desktop file
 RUN curl -sSL https://github.com/alvr-org/ALVR/raw/master/alvr/xtask/resources/alvr.desktop \
-    | sed -E 's/Exec=.+/Exec=alvr_launcher/' \
+    | sed -E "s|Exec=.+|Exec=$(which alvr_launcher)|" \
     > /usr/share/applications/alvr.desktop
 
 # remove host xdg-open link so steam:// urls open inside the container
