@@ -27,11 +27,22 @@ RUN curl -sSL https://github.com/alvr-org/ALVR/releases/download/v20.11.0/alvr_l
     --transform 's/ALVR Launcher/alvr_launcher/' \
     --show-transformed-names \
     --directory /usr/local/bin/
-
 # use upstream alvr desktop file
 RUN curl -sSL https://github.com/alvr-org/ALVR/raw/master/alvr/xtask/resources/alvr.desktop \
     | sed -E "s|Exec=.+|Exec=$(which alvr_launcher)|" \
     > /usr/share/applications/alvr.desktop
+
+# install beat saber mod manager
+RUN curl -sSL https://github.com/affederaffe/BeatSaberModManager/releases/download/v0.0.6/BeatSaberModManager-linux-x64.zip --output /tmp/bsmm.zip \
+    && unzip /tmp/bsmm.zip -d /usr/local/bin/ \
+    && chmod +x /usr/local/bin/BeatSaberModManager \
+    && rm /tmp/bsmm.zip
+# use .desktop and icon from AUR
+RUN curl -sSL https://aur.archlinux.org/cgit/aur.git/plain/BeatSaberModManager.desktop?h=beat-saber-mod-manager-bin \
+    > /usr/share/applications/BeatSaberModManager.desktop \
+    && curl -sSL https://aur.archlinux.org/cgit/aur.git/plain/beat-saber-mod-manager.png?h=beat-saber-mod-manager-bin \
+    > /usr/share/icons/hicolor/256x256/apps/beat-saber-mod-manager.png
+
 
 # remove host xdg-open link so steam:// urls open inside the container
 RUN rm /usr/local/bin/xdg-open
