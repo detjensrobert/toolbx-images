@@ -26,21 +26,11 @@ jobs:
           - ubuntu
 
     steps:
-      - name: Reinstall Buildah from source
-        # debian/ubuntu patches out heredoc support for Reasons
-        run: |
-          sudo apt-get -y -qq update
-          sudo apt-get -y install bats btrfs-progs git go-md2man golang libapparmor-dev libglib2.0-dev libgpgme11-dev libseccomp-dev libselinux1-dev make skopeo libbtrfs-dev
-
-          mkdir -p /tmp/foo/bar/
-          git clone https://github.com/containers/buildah /tmp/foo/bar/buildah --branch v$(buildah --version | cut -d' ' -f3)
-          cd /tmp/foo/bar/buildah
-          make runc all SECURITYTAGS="apparmor seccomp"
-          sudo make install install.runc
-          buildah --help
-
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Install newer Buildah
+        run: ./install-buildah-from-sid.sh
 
       - name: Build Image
         id: build_image
@@ -71,20 +61,11 @@ jobs:
           - vr
 
     steps:
-      - name: Reinstall Buildah from source
-      # debian/ubuntu patches out heredoc support for Reasons
-        run: |
-          sudo apt-get -y -qq update
-          sudo apt-get -y install bats btrfs-progs git go-md2man golang libapparmor-dev libglib2.0-dev libgpgme11-dev libseccomp-dev libselinux1-dev make skopeo libbtrfs-dev
-
-          git clone https://github.com/containers/buildah /tmp/buildah --branch v$(buildah --version | cut -d' ' -f3)
-          cd /tmp/buildah
-          make runc all SECURITYTAGS="apparmor seccomp"
-          sudo make install install.runc
-          buildah --help
-
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Install newer Buildah
+        run: ./install-buildah-from-sid.sh
 
       - name: Build Image
         id: build_image
