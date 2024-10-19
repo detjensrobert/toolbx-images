@@ -13,10 +13,19 @@ RUN apt-get install -y $(cat /packages | grep -v '#' | xargs) && rm /packages
 # fix bat program name
 RUN ln -s /usr/bin/batcat /usr/bin/bat
 
+# make podman command remote
+COPY <<EOF /usr/local/bin/podman
+  #!/bin/sh
+  exec podman --remote "$@"
+EOF
+
 # pre set distrobox host links
-RUN ln -s /usr/bin/distrobox-host-exec /usr/local/bin/firefox && \
-    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/systemctl && \
-    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/xdg-open && \
-    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/journalctl && \
-    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/podman && \
-    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/flatpak
+RUN for f in systemctl journalctl xdg-open firefox flatpak op ; do \
+      ln -s /usr/bin/distrobox-host-exec /usr/local/bin/$f; \
+    done
+
+LABEL io.containers.autoupdate=registry \
+    name="Custom Ubuntu Toolbox" \
+    maintainer=detjensrobert \
+    org.opencontainers.image.source="https://github.com/detjensrobert/toolbx-images"
+

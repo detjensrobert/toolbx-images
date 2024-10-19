@@ -47,9 +47,15 @@ RUN useradd yaybuilder --groups wheel --create-home && \
 RUN sed -i -E 's|exec .+podman|exec podman|' $(find /usr -name docker)
 
 # pre set distrobox host links
-RUN for f in systemctl journalctl xdg-open firefox podman flatpak op ; do \
+RUN for f in systemctl journalctl xdg-open firefox flatpak op ; do \
       ln -s /usr/bin/distrobox-host-exec /usr/local/bin/$f; \
     done
+
+# make podman command remote
+COPY <<EOF /usr/local/bin/podman
+  #!/bin/sh
+  exec podman --remote "$@"
+EOF
 
 LABEL io.containers.autoupdate=registry \
     name="Custom Archlinux Toolbox" \
