@@ -23,7 +23,7 @@ RUN for f in systemctl journalctl xdg-open firefox flatpak op ; do \
 # make podman command remote
 COPY --chmod=755 <<EOF /usr/local/bin/podman
 #!/bin/sh
-exec podman --remote "$@"
+exec /usr/bin/podman --remote "$@"
 EOF
 
 LABEL io.containers.autoupdate=registry \
