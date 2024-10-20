@@ -12,12 +12,12 @@ RUN pacman-key --init && \
 
 # twiddle some pacman settings
 RUN sed -i -E /etc/pacman.conf \
-      -e 's/^#Color/Color/' \
-      -e 's/^NoProgressBar/#NoProgressBar/' \
-      -e '\|^NoExtract.+usr/share/man|d' && \
+    -e 's/^#Color/Color/' \
+    -e 's/^NoProgressBar/#NoProgressBar/' \
+    -e '\|^NoExtract.+usr/share/man|d' && \
     sed -i -E /etc/makepkg.conf \
-      -e 's/^#MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/' \
-      -e '/OPTIONS/s/ debug/ !debug/'
+    -e 's/^#MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/' \
+    -e '/OPTIONS/s/ debug/ !debug/'
 
 # set pacman mirrors
 RUN pacman -Sy --noconfirm reflector && \
@@ -48,13 +48,13 @@ RUN sed -i -E 's|exec .+podman|exec podman|' $(find /usr -name docker)
 
 # pre set distrobox host links
 RUN for f in systemctl journalctl xdg-open firefox flatpak op ; do \
-      ln -s /usr/bin/distrobox-host-exec /usr/local/bin/$f; \
+    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/$f; \
     done
 
 # make podman command remote
-COPY <<EOF /usr/local/bin/podman
-  #!/bin/sh
-  exec podman --remote "$@"
+COPY --chmod=755 <<EOF /usr/local/bin/podman
+#!/bin/sh
+exec podman --remote "$@"
 EOF
 
 LABEL io.containers.autoupdate=registry \
