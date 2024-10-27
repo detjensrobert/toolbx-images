@@ -71,6 +71,7 @@ helm
 stern
 kubectx
 k9s
+minikube
 
 # yubikey tools
 yubikey-manager
