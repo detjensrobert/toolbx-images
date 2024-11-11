@@ -52,10 +52,12 @@ RUN for f in systemctl journalctl xdg-open firefox flatpak op ; do \
     done
 
 # make podman command remote
-COPY --chmod=755 <<EOF /usr/local/bin/podman
-#!/bin/sh
-exec /usr/bin/podman --remote "$@"
-EOF
+# use RUN echo since copy heredoc is interpreting the $@ and escaping doesnt help
+#COPY --chmod=755 <<EOF /usr/local/bin/podman
+##!/bin/sh
+#exec /usr/bin/podman --remote "$@"
+#EOF
+RUN echo -e '#!/bin/sh\nexec /usr/bin/podman --remote "$@"' > /usr/local/bin/podman
 
 LABEL io.containers.autoupdate=registry \
     name="Custom Archlinux Toolbox" \
