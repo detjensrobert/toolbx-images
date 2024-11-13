@@ -17,6 +17,6 @@ jobs:
         with:
           account: user
           token: ${{ github.token }}
-          image-names: ${{ github.repository }}
+          image-names: toolbx-images
           cut-off: 2w
           dry-run: true
