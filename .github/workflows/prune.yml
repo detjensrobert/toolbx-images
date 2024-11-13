@@ -1,0 +1,25 @@
+name: Prune old images
+
+on:
+  workflow_dispatch: # manual trigger
+  schedule:
+    - cron: '0 0 1 * *' # monthly
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ${{ github.repository_owner }}/toolbx-images
+
+jobs:
+  prune:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Clean up untagged images
+        uses: Chizkiyahu/delete-untagged-ghcr-action@v5
+        with:
+            token: ${{ github.token }}
+            repository: ${{ github.repository }}
+            untagged_only: true
+            owner_type: user
