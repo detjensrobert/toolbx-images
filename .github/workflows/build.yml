@@ -12,9 +12,6 @@ permissions:
   contents: read
   packages: write
 
-env:
-  IMAGE: ${{ github.repository_owner }}/toolbx-images
-
 jobs:
   base-images:
     runs-on: ubuntu-24.04
@@ -36,7 +33,7 @@ jobs:
         id: build_image
         uses: redhat-actions/buildah-build@main
         with:
-          image: ${{ env.IMAGE }}
+          image: ${{ github.repository }}
           tags: ${{ matrix.tag }}
           context: ${{ matrix.tag }}
           containerfiles: ./${{ matrix.tag }}/Containerfile
@@ -71,7 +68,7 @@ jobs:
         id: build_image
         uses: redhat-actions/buildah-build@main
         with:
-          image: ${{ env.IMAGE }}
+          image: ${{ github.repository }}
           tags: ${{ matrix.tag }}
           context: ${{ matrix.tag }}
           containerfiles: ./${{ matrix.tag }}/Containerfile
