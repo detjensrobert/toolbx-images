@@ -47,17 +47,17 @@ RUN useradd yaybuilder --groups wheel --create-home && \
 RUN sed -i -E 's|exec .+podman|exec podman|' $(find /usr -name docker)
 
 # pre set distrobox host links
-RUN for f in systemctl journalctl xdg-open firefox flatpak op ; do \
+RUN for f in systemctl journalctl xdg-open firefox flatpak op podman; do \
     ln -s /usr/bin/distrobox-host-exec /usr/local/bin/$f; \
     done
 
 # make podman command remote
 # use RUN echo since copy heredoc is interpreting the $@ and escaping doesnt help
-#COPY --chmod=755 <<EOF /usr/local/bin/podman
+#COPY --chmod=755 <<EOF /usr/local/bin/podman-remote
 ##!/bin/sh
 #exec /usr/bin/podman --remote "$@"
 #EOF
-RUN echo -e '#!/bin/sh\nexec /usr/bin/podman --remote "$@"' > /usr/local/bin/podman
+RUN echo -e '#!/bin/sh\nexec /usr/bin/podman --remote "$@"' > /usr/local/bin/podman-remote
 
 LABEL io.containers.autoupdate=registry \
     name="Custom Archlinux Toolbox" \

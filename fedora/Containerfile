@@ -16,12 +16,12 @@ RUN dnf install -y $(cat /packages | grep -v '#' | xargs) && \
     rm -f /packages
 
 # pre set distrobox host links
-RUN for f in systemctl journalctl xdg-open firefox flatpak op ; do \
+RUN for f in systemctl journalctl xdg-open firefox flatpak op podman ; do \
     ln -s /usr/bin/distrobox-host-exec /usr/local/bin/$f; \
     done
 
 # make podman command remote
-RUN echo -e '#!/bin/sh\nexec /usr/bin/podman --remote "$@"' > /usr/local/bin/podman
+RUN echo -e '#!/bin/sh\nexec /usr/bin/podman --remote "$@"' > /usr/local/bin/podman-remote
 
 LABEL io.containers.autoupdate=registry \
     name="Custom Fedora Toolbox" \
