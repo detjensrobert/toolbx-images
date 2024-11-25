@@ -19,6 +19,7 @@ man-db
 act
 bind
 btop
+dive
 duf
 ffmpeg
 git
@@ -45,8 +46,6 @@ reflector
 retry
 rsync
 sshfs
-terraform
-opentofu
 tig
 wl-clipboard
 yq
@@ -57,6 +56,7 @@ rust cargo clang
 ruby ruby-bundler ruby-irb ruby-rdoc ruby-pry rubygems
 python ipython python-pipenv python-pipx
 mold
+terraform opentofu
 
 # cloud clis
 google-cloud-cli

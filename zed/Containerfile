@@ -2,6 +2,9 @@ FROM ghcr.io/detjensrobert/toolbx-images:arch
 
 # install editor packages, etc over base image
 
+# add rubygems repo for solargraph gem
+RUN echo -e '[quarry]\nServer = https://pkgbuild.com/~anatolik/quarry/x86_64/' >> /etc/pacman.conf
+
 COPY ./packages /
 RUN pacman -Syu --needed --noconfirm $(cat /packages | grep -v '#' | xargs)  && \
     pacman -Scc --noconfirm --clean && rm /packages
