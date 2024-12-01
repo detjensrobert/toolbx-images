@@ -24,6 +24,7 @@ duf
 ffmpeg
 git
 git-delta
+git-filter-repo
 git-lfs
 graphviz
 hexyl
