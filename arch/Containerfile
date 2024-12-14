@@ -43,6 +43,18 @@ RUN useradd yaybuilder --groups wheel --create-home && \
     rm -rf /home/yaybuilder && \
     pacman -Scc --noconfirm --clean && rm /aur-packages
 
+COPY <<EOF /etc/ssh/sshd_config.d/localhost-only.conf
+Port 2222
+ListenAddress 127.0.0.1
+
+PasswordAuthentication no
+AuthenticationMethods publickey
+
+# allow socket forwarding to remove existing sockets
+# https://wiki.gnupg.org/AgentForwarding
+StreamLocalBindUnlink yes
+EOF
+
 # fix podman-docker to use PATH
 RUN sed -i -E 's|exec .+podman|exec podman|' $(find /usr -name docker)
 
