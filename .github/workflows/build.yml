@@ -23,6 +23,16 @@ jobs:
           - ubuntu
 
     steps:
+      # the arch container is really big now...
+      # remove some huge packages to free up space
+      # inspired by https://github.com/easimon/maximize-build-space
+      - name: Maximize build space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -67,6 +77,16 @@ jobs:
           - vr
 
     steps:
+      # the arch container is really big now...
+      # remove some huge packages to free up space
+      # inspired by https://github.com/easimon/maximize-build-space
+      - name: Maximize build space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
