@@ -29,6 +29,11 @@ jobs:
       - name: Install newer Buildah
         run: ./install-buildah-from-sid.sh
 
+      - name: Install other deps for local Act
+        if: ${{ env.ACT }}
+        run: |
+          apt install -y podman
+
       - name: Build Image
         id: build_image
         uses: redhat-actions/buildah-build@main

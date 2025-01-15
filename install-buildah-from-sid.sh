@@ -8,7 +8,7 @@
 # Until then, install buildah from Sid to get heredoc support.
 
 sudo apt update
-sudo apt install debian-keyring debian-archive-keyring
+sudo apt install -y debian-keyring debian-archive-keyring
 
 cat <<EOF | sudo tee /etc/apt/sources.list.d/debian-sid.sources
 Types: deb
@@ -25,4 +25,4 @@ Pin-Priority: 100
 EOF
 
 sudo apt update
-sudo apt install buildah/sid crun/sid libgpgme11t64/sid
+sudo apt install -y buildah/sid crun/sid libgpgme11t64/sid
