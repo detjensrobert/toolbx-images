@@ -1,8 +1,8 @@
-google-cloud-cli-gke-gcloud-auth-plugin
-aws-cli-v2
+#google-cloud-cli-gke-gcloud-auth-plugin
+#aws-cli-v2
 #aws-session-manager-plugin
 python-aws-mfa
-oci-cli
+#oci-cli
 auth0-bin
 
 rsgain

@@ -61,7 +61,7 @@ mold
 terraform opentofu
 
 # cloud clis
-google-cloud-cli
+#google-cloud-cli
 doctl
 github-cli
 glab
