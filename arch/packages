@@ -53,6 +53,8 @@ tig
 wl-clipboard
 yq
 yt-dlp
+ipmitool
+
 
 # language stuff
 rust cargo clang
