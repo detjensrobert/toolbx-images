@@ -77,6 +77,7 @@ stern
 kubectx
 k9s
 minikube
+talosctl
 
 # yubikey tools
 yubikey-manager
