@@ -33,7 +33,7 @@ hexyl
 htop
 httpie
 imagemagick
-isd
+#isd
 jq
 just
 moreutils
