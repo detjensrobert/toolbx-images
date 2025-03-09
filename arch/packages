@@ -50,6 +50,7 @@ pwgen
 reflector
 retry
 rsync
+skopeo
 sshfs
 tig
 wl-clipboard
