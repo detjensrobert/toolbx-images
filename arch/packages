@@ -62,7 +62,7 @@ ipmitool
 # language stuff
 rust cargo clang
 ruby ruby-bundler ruby-irb ruby-rdoc ruby-pry rubygems
-python ipython python-pipenv python-pipx
+python ipython python-pipenv python-pipx uv
 mold
 terraform opentofu
 
