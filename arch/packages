@@ -54,6 +54,7 @@ skopeo
 sshfs
 tig
 wl-clipboard
+libxcrypt-compat
 yq
 yt-dlp
 ipmitool
