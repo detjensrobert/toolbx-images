@@ -20,9 +20,12 @@ RUN sed -i -E /etc/pacman.conf \
     -e '/OPTIONS/s/ debug/ !debug/'
 
 # set pacman mirrors
-RUN pacman -Sy --noconfirm reflector && \
-    reflector --country us --protocol https --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
-#RUN echo -e 'Server = https://ziply.mm.fcix.net/archlinux/$repo/os/$arch\nServer = https://mirror.fcix.net/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+# RUN pacman -Sy --noconfirm reflector && \
+#     reflector --country us --protocol https --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+COPY <<EOF /etc/pacman.d/mirrorlist
+# Server = https://mirror.fcix.net/archlinux/$repo/os/$arch
+Server = https://ziply.mm.fcix.net/archlinux/$repo/os/$arch
+EOF
 
 # reinstall packages with manpages
 RUN pacman -Fy --noconfirm && pacman -Sy --noconfirm && \
