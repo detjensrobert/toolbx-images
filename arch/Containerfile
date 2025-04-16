@@ -1,5 +1,14 @@
 FROM quay.io/toolbx/arch-toolbox:latest
 
+# set pacman mirrors
+# RUN pacman -Sy --noconfirm reflector && \
+#     reflector --country us --protocol https --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+COPY <<'EOF' /etc/pacman.d/mirrorlist
+Server = https://ziply.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://mirror.fcix.net/archlinux/$repo/os/$arch
+EOF
+RUN cat /etc/pacman.d/mirrorlist
+
 # yes putting pacman key in a container image is "bad"
 # but this is a very low volume image and i dont care
 RUN pacman-key --init && \
@@ -18,14 +27,6 @@ RUN sed -i -E /etc/pacman.conf \
     sed -i -E /etc/makepkg.conf \
     -e 's/^#MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/' \
     -e '/OPTIONS/s/ debug/ !debug/'
-
-# set pacman mirrors
-# RUN pacman -Sy --noconfirm reflector && \
-#     reflector --country us --protocol https --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
-COPY <<EOF /etc/pacman.d/mirrorlist
-# Server = https://mirror.fcix.net/archlinux/$repo/os/$arch
-Server = https://ziply.mm.fcix.net/archlinux/$repo/os/$arch
-EOF
 
 # reinstall packages with manpages
 RUN pacman -Fy --noconfirm && pacman -Sy --noconfirm && \

@@ -1,7 +1,8 @@
 FROM quay.io/toolbx/ubuntu-toolbox:24.04
 
 RUN echo "en_US.UTF-8" > /etc/locale.gen
-RUN sed -i -e 's|http://archive.ubuntu.com/ubuntu|https://ziply.mm.fcix.net/ubuntu|' /etc/apt/sources.list
+# RUN sed -i -E -e 's|https?://archive.ubuntu.com/ubuntu|https://ziply.mm.fcix.net/ubuntu|' /etc/apt/sources.list /etc/apt/sources.list.d/*
+RUN sed -i -E -e 's|https?://archive.ubuntu.com/ubuntu|https://mirror.fcix.net/ubuntu|' /etc/apt/sources.list /etc/apt/sources.list.d/*
 
 RUN install -dm 755 /etc/apt/keyrings && \
     wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | tee /etc/apt/keyrings/mise-archive-keyring.gpg 1> /dev/null && \
