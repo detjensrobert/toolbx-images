@@ -61,11 +61,10 @@ ipmitool
 
 
 # language stuff
-rust cargo clang
+rust cargo clang cargo-binstall
 ruby ruby-bundler ruby-irb ruby-rdoc ruby-pry rubygems
 python ipython python-pipenv python-pipx uv
 mold
-terraform opentofu
 
 # cloud clis
 #google-cloud-cli
