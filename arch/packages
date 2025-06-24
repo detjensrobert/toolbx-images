@@ -68,11 +68,11 @@ python ipython python-pipenv python-pipx uv
 mold
 
 # cloud clis
-#google-cloud-cli
 doctl
 github-cli
 glab
-# aws-cli # only v1 in repo, need v2 from aur
+terraform
+opentofu
 
 # kubernetes
 kubectl
