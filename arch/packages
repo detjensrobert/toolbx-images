@@ -66,6 +66,7 @@ rust cargo clang cargo-binstall
 ruby ruby-bundler ruby-irb ruby-rdoc ruby-pry rubygems
 python ipython python-pipenv python-pipx uv
 mold
+mono
 
 # cloud clis
 doctl
