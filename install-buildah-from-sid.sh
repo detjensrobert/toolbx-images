@@ -7,6 +7,8 @@
 #
 # Until then, install buildah from Sid to get heredoc support.
 
+set -eux
+
 sudo apt update
 sudo apt install -y debian-keyring debian-archive-keyring
 

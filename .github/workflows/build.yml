@@ -53,9 +53,8 @@ jobs:
           context: ${{ matrix.tag }}
           containerfiles: ./${{ matrix.tag }}/Containerfile
 
-      - name: Push To GHCR
+      - name: Push to GHCR
         uses: redhat-actions/push-to-registry@main
-        id: push-ghcr
         with:
           registry: ghcr.io
           image: ${{ steps.build_image.outputs.image }}
@@ -64,8 +63,7 @@ jobs:
           password: ${{ github.token }}
           # try to extra-compress layers since these are big images
           extra-args: |
-            --compression-format=zstd
-            --compression-level=20
+            --compression-format=zstd:chunked
 
   deriv-images:
     runs-on: ubuntu-24.04
@@ -104,7 +102,6 @@ jobs:
 
       - name: Push To GHCR
         uses: redhat-actions/push-to-registry@main
-        id: push-ghcr
         with:
           registry: ghcr.io
           image: ${{ steps.build_image.outputs.image }}
@@ -113,5 +110,4 @@ jobs:
           password: ${{ github.token }}
           # try to extra-compress layers since these are big images
           extra-args: |
-            --compression-format=zstd
-            --compression-level=20
+            --compression-format=zstd:chunked
