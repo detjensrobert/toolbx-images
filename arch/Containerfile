@@ -28,11 +28,6 @@ RUN sed -i -E /etc/pacman.conf \
     -e 's/^#?MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/' \
     -e '/OPTIONS/s/ debug/ !debug/'
 
-# reinstall packages with manpages
-RUN pacman -Fy --noconfirm && pacman -Sy --noconfirm && \
-    pacman -Qq $(pacman -Fq /usr/share/man/ | cut -d/ -f2) 2> /dev/null | pacman -S --noconfirm - && \
-    pacman -Scc --noconfirm --clean
-
 # and install other extra packages
 COPY ./packages /
 RUN pacman -Syu --needed --noconfirm $(cat /packages | grep -v '#' | xargs) && \
