@@ -22,7 +22,7 @@ RUN ln -s /usr/bin/batcat /usr/bin/bat
 
 # pre set distrobox host links
 RUN for f in systemctl journalctl xdg-open firefox flatpak op podman; do \
-    ln -s /usr/bin/distrobox-host-exec /usr/local/bin/$f; \
+    ln -sf /usr/bin/distrobox-host-exec /usr/local/bin/$f; \
     done
 
 # make podman command remote
