@@ -1,4 +1,4 @@
-FROM quay.io/toolbx/arch-toolbox:latest
+FROM ghcr.io/ublue-os/arch-toolbox:latest
 
 # set pacman mirrors
 # RUN pacman -Sy --noconfirm reflector && \
@@ -25,7 +25,7 @@ RUN sed -i -E /etc/pacman.conf \
     -e 's/^NoProgressBar/#NoProgressBar/' \
     -e '\|^NoExtract.+usr/share/man|d' && \
     sed -i -E /etc/makepkg.conf \
-    -e 's/^#MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/' \
+    -e 's/^#?MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/' \
     -e '/OPTIONS/s/ debug/ !debug/'
 
 # reinstall packages with manpages

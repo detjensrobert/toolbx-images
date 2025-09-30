@@ -1,15 +1,15 @@
-FROM quay.io/fedora/fedora-toolbox:latest
+FROM ghcr.io/ublue-os/fedora-toolbox:latest
 # FROM quay.io/fedora/fedora-toolbox:40
 
-# setup rpmfusion repos
-RUN dnf install -y \
-    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
-#RUN dnf config-manager --enable fedora-cisco-openh264 -y
+# # setup rpmfusion repos
+# RUN dnf install -y \
+#     https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+#     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
+# #RUN dnf config-manager --enable fedora-cisco-openh264 -y
 
-# install mesa with codecs
-RUN dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld && \
-    dnf swap -y mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+# # install mesa with codecs
+# RUN dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld && \
+#     dnf swap -y mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
 
 COPY ./packages /
 RUN dnf install -y $(cat /packages | grep -v '#' | xargs) && \

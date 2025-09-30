@@ -1,4 +1,5 @@
-FROM quay.io/toolbx/ubuntu-toolbox:24.04
+FROM ghcr.io/ublue-os/ubuntu-toolbox:latest
+# FROM quay.io/toolbx/ubuntu-toolbox:24.04
 
 RUN echo "en_US.UTF-8" > /etc/locale.gen
 # RUN sed -i -E -e 's|https?://archive.ubuntu.com/ubuntu|https://ziply.mm.fcix.net/ubuntu|' /etc/apt/sources.list /etc/apt/sources.list.d/*
