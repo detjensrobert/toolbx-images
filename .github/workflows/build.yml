@@ -44,7 +44,7 @@ jobs:
         run: |
           apt install -y podman
 
-      - name: Build Image
+      - name: Build image
         id: build_image
         uses: redhat-actions/buildah-build@main
         with:
@@ -63,7 +63,8 @@ jobs:
           password: ${{ github.token }}
           # try to extra-compress layers since these are big images
           extra-args: |
-            --compression-format=zstd:chunked
+            --compression-format=zstd
+            --compression-level=20
 
   deriv-images:
     runs-on: ubuntu-24.04
@@ -91,7 +92,7 @@ jobs:
       - name: Install newer Buildah
         run: ./install-buildah-from-sid.sh
 
-      - name: Build Image
+      - name: Build image
         id: build_image
         uses: redhat-actions/buildah-build@main
         with:
@@ -100,7 +101,7 @@ jobs:
           context: ${{ matrix.tag }}
           containerfiles: ./${{ matrix.tag }}/Containerfile
 
-      - name: Push To GHCR
+      - name: Push to GHCR
         uses: redhat-actions/push-to-registry@main
         with:
           registry: ghcr.io
@@ -110,4 +111,5 @@ jobs:
           password: ${{ github.token }}
           # try to extra-compress layers since these are big images
           extra-args: |
-            --compression-format=zstd:chunked
+            --compression-format=zstd
+            --compression-level=20
