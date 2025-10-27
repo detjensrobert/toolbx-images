@@ -28,6 +28,11 @@ RUN sed -i -E /etc/pacman.conf \
     -e 's/^#?MAKEFLAGS=.+/MAKEFLAGS="-j$(nproc)"/' \
     -e '/OPTIONS/s/ debug/ !debug/'
 
+# fix missing locales
+RUN echo en_US.UTF-8 UTF-8 > /etc/locale.gen && \
+    echo LANG="en_US.UTF-8" > /etc/locale.conf && \
+    locale-gen
+
 # and install other extra packages
 COPY ./packages /
 RUN pacman -Syu --needed --noconfirm $(cat /packages | grep -v '#' | xargs) && \
