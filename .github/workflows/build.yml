@@ -44,6 +44,8 @@ jobs:
         run:
           podman build
             --pull
+            --cache-from "${{ github.repository }}-cache"
+            --cache-to "${{ github.repository }}-cache"
             --tag "${{ github.repository }}:${{ matrix.tag }}"
             "${{ matrix.tag }}/"
 
@@ -53,6 +55,7 @@ jobs:
             --creds "${{ github.actor }}:${{ github.token }}"
             --compression-format=zstd
             --compression-level=20
+            --force-compression
             "${{ github.repository }}:${{ matrix.tag }}"
             "docker://ghcr.io/${{ github.repository }}:${{ matrix.tag }}"
 
