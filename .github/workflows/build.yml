@@ -44,8 +44,8 @@ jobs:
         run:
           podman build
             --pull
-            --cache-from "${{ github.repository }}-cache"
-            --cache-to "${{ github.repository }}-cache"
+            --cache-from "${{ github.repository }}"
+            --cache-to "${{ github.repository }}"
             --tag "${{ github.repository }}:${{ matrix.tag }}"
             "${{ matrix.tag }}/"
 
