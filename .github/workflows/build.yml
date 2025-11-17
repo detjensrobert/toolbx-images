@@ -49,22 +49,21 @@ jobs:
 
       - name: Push to GHCR
         run:
-          skopeo copy
-            --dest-creds "${{ github.actor }}:${{ github.token }}"
-            --dest-compress-format=zstd
-            --dest-compress-level=20
-            --retry-times 5
-            "containers-storage:${{ github.repository }}:${{ matrix.tag }}"
+          podman push
+            --creds "${{ github.actor }}:${{ github.token }}"
+            --compression-format=zstd
+            --compression-level=20
+            "${{ github.repository }}:${{ matrix.tag }}"
             "docker://ghcr.io/${{ github.repository }}:${{ matrix.tag }}"
 
-  deriv-images:
-    runs-on: ubuntu-24.04
-    needs: base-images
-    strategy:
-      matrix:
-        tag:
-          - zed
-          - vr
+  # deriv-images:
+  #   runs-on: ubuntu-24.04
+  #   needs: base-images
+  #   strategy:
+  #     matrix:
+  #       tag:
+  #         - zed
+  #         - vr
 
-    # run same steps as above, but with these tags
-    steps: *build_steps
+  #   # run same steps as above, but with these tags
+  #   steps: *build_steps
