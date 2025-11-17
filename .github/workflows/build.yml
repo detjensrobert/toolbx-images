@@ -39,28 +39,27 @@ jobs:
       - name: Install newer Buildah
         run: ./install-buildah-from-sid.sh
 
-      - name: GHCR Login
-        run: |
-          echo "${{ github.token }}" | podman login ghcr.io -u ${{ github.actor }} --password-stdin
-
       - name: Build image
         id: build_image
-        run:
-          podman build
-            --pull
-            --cache-from "${{ github.repository }}"
-            --cache-to "${{ github.repository }}"
-            --tag "${{ github.repository }}:${{ matrix.tag }}"
-            "${{ matrix.tag }}/"
+        uses: redhat-actions/buildah-build@main
+        with:
+          image: ${{ github.repository }}
+          tags: ${{ matrix.tag }}
+          context: ${{ matrix.tag }}
+          containerfiles: ./${{ matrix.tag }}/Containerfile
 
       - name: Push to GHCR
-        run:
-          podman push
+        uses: redhat-actions/push-to-registry@main
+        with:
+          registry: ghcr.io
+          image: ${{ steps.build_image.outputs.image }}
+          tags: ${{ steps.build_image.outputs.tags }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+          # try to extra-compress layers since these are big images
+          extra-args: |
             --compression-format=zstd
             --compression-level=20
-            --force-compression
-            "${{ github.repository }}:${{ matrix.tag }}"
-            "docker://ghcr.io/${{ github.repository }}:${{ matrix.tag }}"
 
   deriv-images:
     runs-on: ubuntu-24.04
