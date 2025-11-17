@@ -22,16 +22,16 @@ jobs:
           - fedora
           - ubuntu
 
-    steps:
-      # the arch container is really big now...
-      # remove some huge packages to free up space
-      # inspired by https://github.com/easimon/maximize-build-space
-      - name: Maximize build space
-        run: |
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /opt/hostedtoolcache/CodeQL
+    steps: &build_steps
+      # # the arch container is really big now...
+      # # remove some huge packages to free up space
+      # # inspired by https://github.com/easimon/maximize-build-space
+      # - name: Maximize build space
+      #   run: |
+      #     sudo rm -rf /usr/share/dotnet
+      #     sudo rm -rf /usr/local/lib/android
+      #     sudo rm -rf /opt/ghc
+      #     sudo rm -rf /opt/hostedtoolcache/CodeQL
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,32 +39,23 @@ jobs:
       - name: Install newer Buildah
         run: ./install-buildah-from-sid.sh
 
-      - name: Install other deps for local Act
-        if: ${{ env.ACT }}
-        run: |
-          apt install -y podman
-
       - name: Build image
         id: build_image
-        uses: redhat-actions/buildah-build@main
-        with:
-          image: ${{ github.repository }}
-          tags: ${{ matrix.tag }}
-          context: ${{ matrix.tag }}
-          containerfiles: ./${{ matrix.tag }}/Containerfile
+        run:
+          podman build
+            --pull
+            --tag "${{ github.repository }}:${{ matrix.tag }}"
+            "${{ matrix.tag }}/"
 
       - name: Push to GHCR
-        uses: redhat-actions/push-to-registry@main
-        with:
-          registry: ghcr.io
-          image: ${{ steps.build_image.outputs.image }}
-          tags: ${{ steps.build_image.outputs.tags }}
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          # try to extra-compress layers since these are big images
-          extra-args: |
-            --compression-format=zstd
-            --compression-level=20
+        run:
+          skopeo copy
+            --dest-creds "${{ github.actor }}:${{ github.token }}"
+            --dest-compress-format=zstd
+            --dest-compress-level=20
+            --retry 5
+            "containers-storage:${{ github.repository }}:${{ matrix.tag }}"
+            "docker://ghcr.io/${{ github.repository }}:${{ matrix.tag }}"
 
   deriv-images:
     runs-on: ubuntu-24.04
@@ -75,41 +66,5 @@ jobs:
           - zed
           - vr
 
-    steps:
-      # the arch container is really big now...
-      # remove some huge packages to free up space
-      # inspired by https://github.com/easimon/maximize-build-space
-      - name: Maximize build space
-        run: |
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /opt/hostedtoolcache/CodeQL
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install newer Buildah
-        run: ./install-buildah-from-sid.sh
-
-      - name: Build image
-        id: build_image
-        uses: redhat-actions/buildah-build@main
-        with:
-          image: ${{ github.repository }}
-          tags: ${{ matrix.tag }}
-          context: ${{ matrix.tag }}
-          containerfiles: ./${{ matrix.tag }}/Containerfile
-
-      - name: Push to GHCR
-        uses: redhat-actions/push-to-registry@main
-        with:
-          registry: ghcr.io
-          image: ${{ steps.build_image.outputs.image }}
-          tags: ${{ steps.build_image.outputs.tags }}
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          # try to extra-compress layers since these are big images
-          extra-args: |
-            --compression-format=zstd
-            --compression-level=20
+    # run same steps as above, but with these tags
+    steps: *build_steps
