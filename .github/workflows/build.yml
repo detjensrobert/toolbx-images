@@ -39,6 +39,10 @@ jobs:
       - name: Install newer Buildah
         run: ./install-buildah-from-sid.sh
 
+      - name: GHCR Login
+        run: |
+          echo "${{ github.token }}" | podman login ghcr.io -u ${{ github.actor }} --password-stdin
+
       - name: Build image
         id: build_image
         run:
@@ -52,7 +56,6 @@ jobs:
       - name: Push to GHCR
         run:
           podman push
-            --creds "${{ github.actor }}:${{ github.token }}"
             --compression-format=zstd
             --compression-level=20
             --force-compression
