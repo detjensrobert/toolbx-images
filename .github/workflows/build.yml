@@ -53,7 +53,7 @@ jobs:
             --dest-creds "${{ github.actor }}:${{ github.token }}"
             --dest-compress-format=zstd
             --dest-compress-level=20
-            --retry 5
+            --retry-times 5
             "containers-storage:${{ github.repository }}:${{ matrix.tag }}"
             "docker://ghcr.io/${{ github.repository }}:${{ matrix.tag }}"
 
