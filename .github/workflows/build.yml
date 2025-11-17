@@ -56,14 +56,14 @@ jobs:
             "${{ github.repository }}:${{ matrix.tag }}"
             "docker://ghcr.io/${{ github.repository }}:${{ matrix.tag }}"
 
-  # deriv-images:
-  #   runs-on: ubuntu-24.04
-  #   needs: base-images
-  #   strategy:
-  #     matrix:
-  #       tag:
-  #         - zed
-  #         - vr
+  deriv-images:
+    runs-on: ubuntu-24.04
+    needs: base-images
+    strategy:
+      matrix:
+        tag:
+          - zed
+          - vr
 
-  #   # run same steps as above, but with these tags
-  #   steps: *build_steps
+    # run same steps as above, but with these tags
+    steps: *build_steps
