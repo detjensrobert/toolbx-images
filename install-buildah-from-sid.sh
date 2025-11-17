@@ -27,4 +27,4 @@ Pin-Priority: 100
 EOF
 
 sudo apt update
-sudo apt install -y buildah/sid crun/sid libgpgme11t64/sid
+sudo apt install -y buildah/sid podman/sid crun/sid libgpgme11t64/sid
