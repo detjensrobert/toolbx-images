@@ -54,6 +54,7 @@ rsync
 skopeo
 sshfs
 tig
+whois
 wl-clipboard
 libxcrypt-compat
 yq
