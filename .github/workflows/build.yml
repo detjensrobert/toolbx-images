@@ -15,6 +15,10 @@ permissions:
 jobs:
   base-images:
     runs-on: ubuntu-latest
+    container:
+      image: quay.io/podman/stable:latest
+      options: --privileged
+
     strategy:
       matrix:
         tag:
@@ -43,23 +47,25 @@ jobs:
       - name: Build image
         id: build_image
         run:
-          buildah build
+          podman build
             --pull=always
-            -t toolbx-images:${{ matrix.tag }}
+            -t ghcr.io/detjensrobert/toolbx-images:${{ matrix.tag }}
             ${{ matrix.tag }}
 
       - name: Push to GHCR
         run:
-          skopeo copy
-            containers-storage:toolbx-images:${{ matrix.tag }}
-            docker://ghcr.io/detjensrobert/toolbx-images:${{ matrix.tag }}
-            --dest-creds "${{ github.actor }}:${{ github.token }}"
-            --dest-precompute-digests
-            --dest-compress-format zstd
-            --dest-compress-level 20
+          podman push
+            ghcr.io/detjensrobert/toolbx-images:${{ matrix.tag }}
+            --creds "${{ github.actor }}:${{ github.token }}"
+            --compression-format zstd
+            --compression-level 20
 
   deriv-images:
     runs-on: ubuntu-24.04
+    container:
+      image: quay.io/podman/stable:latest
+      options: --privileged
+
     needs: base-images
     strategy:
       matrix:
