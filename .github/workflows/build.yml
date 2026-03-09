@@ -30,19 +30,19 @@ jobs:
       # the arch container is really big now...
       # remove some huge packages to free up space
       # inspired by https://github.com/easimon/maximize-build-space
-      - name: Maximize build space
-        run:
-          sudo rm -rf
-            /usr/share/dotnet
-            /usr/local/lib/android
-            /opt/ghc
-            /opt/hostedtoolcache/CodeQL
+      # - name: Maximize build space
+      #   run:
+      #     sudo rm -rf
+      #       /usr/share/dotnet
+      #       /usr/local/lib/android
+      #       /opt/ghc
+      #       /opt/hostedtoolcache/CodeQL
 
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install newer Buildah
-        run: ./install-buildah-from-sid.sh
+      # - name: Install newer Buildah
+      #   run: ./install-buildah-from-sid.sh
 
       - name: Build image
         id: build_image
