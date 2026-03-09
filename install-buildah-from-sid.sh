@@ -27,4 +27,4 @@ Pin-Priority: 100
 EOF
 
 sudo apt update
-sudo apt install -y buildah/sid skopeo/sid
+sudo apt install -y buildah/sid skopeo/sid crun/sid libgpgme45/sid
