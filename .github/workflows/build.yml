@@ -35,7 +35,7 @@ jobs:
             /opt/hostedtoolcache/CodeQL
 
       - name: Checkout repository
-        uses: actions/checkout@latest
+        uses: actions/checkout@v4
 
       - name: Install newer Buildah
         run: ./install-buildah-from-sid.sh
