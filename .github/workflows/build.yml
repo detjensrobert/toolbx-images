@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   base-images:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         tag:
@@ -27,39 +27,36 @@ jobs:
       # remove some huge packages to free up space
       # inspired by https://github.com/easimon/maximize-build-space
       - name: Maximize build space
-        run: |
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /opt/hostedtoolcache/CodeQL
+        run:
+          sudo rm -rf
+            /usr/share/dotnet
+            /usr/local/lib/android
+            /opt/ghc
+            /opt/hostedtoolcache/CodeQL
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@latest
 
       - name: Install newer Buildah
         run: ./install-buildah-from-sid.sh
 
       - name: Build image
         id: build_image
-        uses: redhat-actions/buildah-build@main
-        with:
-          image: ${{ github.repository }}
-          tags: ${{ matrix.tag }}
-          context: ${{ matrix.tag }}
-          containerfiles: ./${{ matrix.tag }}/Containerfile
+        run:
+          buildah build
+            --pull=always
+            -t toolbx-images:${{ matrix.tag }}
+            ${{ matrix.tag }}
 
       - name: Push to GHCR
-        uses: redhat-actions/push-to-registry@main
-        with:
-          registry: ghcr.io
-          image: ${{ steps.build_image.outputs.image }}
-          tags: ${{ steps.build_image.outputs.tags }}
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          # try to extra-compress layers since these are big images
-          extra-args: |
-            --compression-format=zstd
-            --compression-level=20
+        run:
+          skopeo copy
+            containers-storage:toolbx-images:${{ matrix.tag }}
+            docker://ghcr.io/detjensrobert/toolbx-images:${{ matrix.tag }}
+            --dest-creds "${{ github.actor }}:${{ github.token }}"
+            --dest-precompute-digests
+            --dest-compress-format zstd
+            --dest-compress-level 20
 
   deriv-images:
     runs-on: ubuntu-24.04
