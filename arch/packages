@@ -36,6 +36,7 @@ imagemagick
 #isd
 jq
 just
+jwt-cli
 moreutils
 mtr
 miller
