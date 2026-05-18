@@ -18,6 +18,6 @@ lazysql
 ducker
 
 # gh markdown preview
-python-grip
+go-grip
 
 tget-bin
