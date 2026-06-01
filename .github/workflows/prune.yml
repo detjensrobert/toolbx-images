@@ -13,7 +13,7 @@ jobs:
   prune:
     runs-on: ubuntu-24.04
     steps:
-      - uses: snok/container-retention-policy@v3.0.0
+      - uses: snok/container-retention-policy@d3bdcf5ce9b05f685154e4a16c39233b245e3d53 # v3.1.0
         with:
           account: user
           token: ${{ github.token }}
