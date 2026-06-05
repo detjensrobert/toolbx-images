@@ -60,7 +60,7 @@ StreamLocalBindUnlink yes
 EOF
 
 # fix podman-docker to use PATH
-RUN sed -i -E 's|exec .+podman|exec podman|' $(find /usr -name docker)
+RUN sed -i -E 's|exec .+podman|exec podman|' $(find /usr/bin -name docker)
 
 # pre set distrobox host links
 RUN for f in systemctl journalctl xdg-open firefox flatpak op podman; do \
