@@ -21,6 +21,7 @@ bind
 btop
 cosign
 dive
+docker-compose
 duf
 ffmpeg
 fx
