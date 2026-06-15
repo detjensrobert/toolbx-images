@@ -30,13 +30,13 @@ jobs:
       # the arch container is really big now...
       # remove some huge packages to free up space
       # inspired by https://github.com/easimon/maximize-build-space
-      # - name: Maximize build space
-      #   run:
-      #     sudo rm -rf
-      #       /usr/share/dotnet
-      #       /usr/local/lib/android
-      #       /opt/ghc
-      #       /opt/hostedtoolcache/CodeQL
+      - name: Maximize build space
+        run:
+          sudo rm -rf
+            /usr/share/dotnet
+            /usr/local/lib/android
+            /opt/ghc
+            /opt/hostedtoolcache/CodeQL
 
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
