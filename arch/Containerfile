@@ -61,23 +61,9 @@ EOF
 
 # fix podman-docker to use PATH
 RUN sed -i -E 's|exec .+podman|exec podman|' $(find /usr/bin -name docker)
-# also fix after every package install
-COPY /etc/pacman.d/hooks/podman-exec.hook <<-TOML
-    # Fix podman-docker to use PATH
-    [Trigger]
-    Operation = Install
-    Operation = Upgrade
-    Type = Path
-    Target = /usr/bin/docker
-    [Action]
-    Depends = coreutils
-    When = PostTransaction
-    Exec = sed -i -E 's|exec .+podman|exec podman|' /usr/bin/docker
-TOML
-
 
 # pre set distrobox host links
-RUN for f in systemctl journalctl xdg-open firefox flatpak op podman; do \
+RUN for f in systemctl journalctl xdg-open firefox flatpak op podman docker; do \
     ln -sf /usr/bin/distrobox-host-exec /usr/local/bin/$f; \
     done
 
