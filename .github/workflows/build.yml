@@ -57,7 +57,7 @@ jobs:
           podman push
             ghcr.io/detjensrobert/toolbx-images:${{ matrix.tag }}
             --creds "${{ github.actor }}:${{ github.token }}"
-            --compression-format zstd
+            --compression-format zstd:chunked
             --compression-level 20
 
   deriv-images:
