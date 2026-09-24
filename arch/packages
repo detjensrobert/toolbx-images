@@ -8,6 +8,7 @@ fd
 bat
 ripgrep
 nano
+nano-syntax-highlighting
 chezmoi
 yay
 entr
