@@ -82,6 +82,7 @@ opentofu
 kubectl
 helm
 stern
+kind
 kubectx
 k9s
 minikube
