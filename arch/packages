@@ -81,6 +81,7 @@ opentofu
 # kubernetes
 kubectl
 helm
+argocd
 stern
 kind
 kubectx
