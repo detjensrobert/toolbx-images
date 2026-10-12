@@ -49,7 +49,7 @@ jobs:
         run:
           podman build
             --pull=always
-            --squash-all
+            --squash
             -t ghcr.io/detjensrobert/toolbx-images:${{ matrix.tag }}
             ${{ matrix.tag }}
 
